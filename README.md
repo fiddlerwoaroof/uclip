@@ -1,6 +1,6 @@
 # A simple clipboard utility
 
-This wraps <https://github.com/Shinmera/buildapp> to provide a handy suite of
+This wraps <https://github.com/Shinmera/ubiquitous> to provide a handy suite of
 utilities to manage a set of named clipboards.
 
 # Installation
