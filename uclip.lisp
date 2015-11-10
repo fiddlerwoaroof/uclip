@@ -21,7 +21,6 @@
         (value 'clipboard *current-clipboard*)))
 
 (defun paste (argv)
-  (declare (ignore argv))
   (init) 
   (let ((*current-clipboard*
           (if (cdr argv) (cadr argv) *current-clipboard*)))
@@ -38,3 +37,24 @@
   (init) 
   (when (value 'clipboard *current-clipboard*)
     (format t "~a" (pop (value 'clipboard *current-clipboard*)))))
+
+(defun show-clipboard-contents (argv)
+  (init)
+  (let*  ((*current-clipboard* (aif (cdr argv) (car it) *current-clipboard*))
+          (current-clipboard (value 'clipboard *current-clipboard*))
+          (cc-length (length current-clipboard))
+          (show-length (min cc-length
+                            (or (awhen (cddr argv) (parse-integer (car it) :junk-allowed t))
+                                5)))
+          (current-clipboard (subseq current-clipboard 0 show-length)))
+    (when (> cc-length 0)
+      (format t "~&~{~a~&~^---~%~}" current-clipboard))))
+
+(defun list-clipboards (argv)
+  (init)
+  (format t "~&~{~a~%~}" (hash-table-keys (value 'clipboard))))
+
+(defun clear-clipboard (argv)
+  (declare (ignore argv))
+  (init)
+  (setf (value 'clipboard *current-clipboard*) nil))
