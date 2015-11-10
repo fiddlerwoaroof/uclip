@@ -27,6 +27,10 @@
     (awhen (car (value 'clipboard *current-clipboard*))
       (format t "~a" it))))
 
+(defun tee (argv)
+  (copy argv)
+  (paste nil))
+
 (defun switch-clipboards (argv)
   (init) 
   (setf *current-clipboard*
