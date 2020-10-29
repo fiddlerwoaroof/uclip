@@ -1,11 +1,10 @@
 set -eu -o pipefail
 
-cleanup() {
-  if [[ -d /homeless-shelter ]]; then
-    rm -rf /homeless-shelter
-  fi
-}
-trap cleanup EXIT
+export CL_SOURCE_REGISTRY="(:source-registry :ignore-inherited-configuration)"
+export XDG_CACHE_HOME="$TMP/.cache"
+
+echo "HOME IS: " $HOME;
+HOME=$TMP
 
 export PATH
 add_path() {
@@ -55,6 +54,7 @@ sbcl \
   --dispatched-entry /uclip::paste \
   --dispatched-entry ucopy/uclip::copy \
   --dispatched-entry upaste/uclip::paste \
+  --dispatched-entry utee/uclip::tee \
   --dispatched-entry uswitch/uclip::switch-clipboards \
   --dispatched-entry upop/uclip::pop-clipboard \
   --dispatched-entry uls/uclip::list-clipboards \
@@ -65,6 +65,7 @@ cd "$out/bin"
 
 xargs  -n1  ln -fsv multicall/uclip <<EOF
 ucopy
+utee
 upaste
 uswitch
 upop
